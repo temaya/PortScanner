@@ -105,7 +105,7 @@ public class GenerateLogEventPortScan {
                 String content= "";
 
                 try {
-                    content = new String(Files.readAllBytes(Paths.get("C:\\Users\\min.tran\\IdeaProjects\\esper-demo-nuclear\\src\\main\\resources\\Log.txt")), "UTF-8");
+                    content = new String(Files.readAllBytes(Paths.get("/Users/zephyr/IdeaProjects/PortScanner/src/main/resources/Log.txt")), "UTF-8");
              //       System.out.println(content);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -150,7 +150,7 @@ public class GenerateLogEventPortScan {
 
 
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(50);
                     } catch (InterruptedException exception) {
                         LOG.error("Thread Interrupted", exception);
                     }

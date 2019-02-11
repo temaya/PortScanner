@@ -33,10 +33,18 @@ public class PortScanEventHandler implements InitializingBean{
     /** customize Scan */
     private EPStatement SynScanEventStatement;
 
+    private EPStatement AckScanEventStatement;
+
     /** customize Scan */
     @Autowired
     @Qualifier("synScanEventSubscriber")
     private StatementSubscriber synScanEventSubscriber;
+
+
+    @Autowired
+    @Qualifier("ackScanEventSubscriber")
+    private StatementSubscriber ackScanEventSubscriber;
+
 
     /**
      * Configure Esper Statement(s).
@@ -52,6 +60,7 @@ public class PortScanEventHandler implements InitializingBean{
         //createWarningTemperatureCheckExpression();
         //createTemperatureMonitorExpression();
         createSynScanDetectExpression();
+        createAckScanDetectExpression();
 
     }
 
@@ -61,6 +70,14 @@ public class PortScanEventHandler implements InitializingBean{
         LOG.debug("create Syn Scan Monitor");
         SynScanEventStatement = epService.getEPAdministrator().createEPL(synScanEventSubscriber.getStatement());
         SynScanEventStatement.setSubscriber(synScanEventSubscriber);
+    }
+
+
+    private void createAckScanDetectExpression() {
+
+        LOG.debug("create Ack Scan Monitor");
+        AckScanEventStatement = epService.getEPAdministrator().createEPL(ackScanEventSubscriber.getStatement());
+        AckScanEventStatement.setSubscriber(ackScanEventSubscriber);
     }
 
     /**
