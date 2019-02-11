@@ -1,5 +1,6 @@
 package com.cor.cep.handler;
 
+import com.cor.cep.event.UserSimple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -49,7 +50,7 @@ public class TemperatureEventHandler implements InitializingBean{
      */
     public void initService() {
 
-        LOG.debug("Initializing Servcie ..");
+        LOG.debug("Initializing Service ..");
         Configuration config = new Configuration();
         config.addEventTypeAutoName("com.cor.cep.event");
         epService = EPServiceProviderManager.getDefaultProvider(config);
@@ -101,6 +102,14 @@ public class TemperatureEventHandler implements InitializingBean{
         LOG.debug(event.toString());
         epService.getEPRuntime().sendEvent(event);
 
+    }
+
+    /**
+     * Handle the incoming PortScanEvent.
+     */
+    public void handlePortScan(UserSimple event){
+        LOG.debug(event.toString());
+        epService.getEPRuntime().sendEvent(event);
     }
 
     @Override

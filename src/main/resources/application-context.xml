@@ -11,6 +11,7 @@
 
 	<bean id="eventGenerator"
 		class="com.cor.cep.util.RandomTemperatureEventGenerator" />
-
+	<bean id="eventGeneratorPortScan"
+		  class="com.cor.cep.util.GenerateLogEventPortScan" />
 
 </beans>

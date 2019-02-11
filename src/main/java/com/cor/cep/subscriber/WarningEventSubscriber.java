@@ -30,12 +30,19 @@ public class WarningEventSubscriber implements StatementSubscriber {
         String warningEventExpression = "select * from TemperatureEvent "
                 + "match_recognize ( "
                 + "       measures A as temp1, B as temp2 "
-                + "       pattern (A B) " 
-                + "       define " 
+                + "       pattern (A B) "
+                + "       define "
                 + "               A as A.temperature > " + WARNING_EVENT_THRESHOLD + ", "
                 + "               B as B.temperature > " + WARNING_EVENT_THRESHOLD + ")";
-        
-        return warningEventExpression;
+
+        //String warningEventExpression1 = "select * from pattern [ every  (temp3 = TemperatureEvent(temperature > 300) -> temp4 = TemperatureEvent(temperature > 300)) ]";
+
+        String warningEventExpression1 = "select temp1, temp2 from pattern [ every (temp1 = TemperatureEvent(temperature > 300) -> temp2 = TemperatureEvent(temperature < 1*temp1.temperature) ) ]";
+        //return "select avg(temperature) as avg_val from TemperatureEvent.win:time_batch(5 sec)";
+
+
+
+        return warningEventExpression1;
     }
     
     /**

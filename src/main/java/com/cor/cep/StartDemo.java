@@ -1,5 +1,6 @@
 package com.cor.cep;
 
+import com.cor.cep.util.GenerateLogEventPortScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -22,6 +23,7 @@ public class StartDemo {
     public static void main(String[] args) throws Exception {
 
         LOG.debug("Starting...");
+        long noOfPortScanEvents = 1500;
 
         long noOfTemperatureEvents = 1000;
 
@@ -36,8 +38,11 @@ public class StartDemo {
         BeanFactory factory = (BeanFactory) appContext;
 
         // Start Demo
-        RandomTemperatureEventGenerator generator = (RandomTemperatureEventGenerator) factory.getBean("eventGenerator");
-        generator.startSendingTemperatureReadings(noOfTemperatureEvents);
+        ////RandomTemperatureEventGenerator generator = (RandomTemperatureEventGenerator) factory.getBean("eventGenerator");
+        ////generator.startSendingTemperatureReadings(noOfTemperatureEvents);
+
+       GenerateLogEventPortScan generator = (GenerateLogEventPortScan) factory.getBean("eventGeneratorPortScan");
+       generator.startSendingPortScanEventsReadings(noOfPortScanEvents);
 
     }
 
