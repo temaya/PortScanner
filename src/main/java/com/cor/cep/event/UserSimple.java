@@ -45,8 +45,10 @@ public class UserSimple {
     private String DstPt;
     private String Proto;
     private String Flag;
+    private String Type;
+    private String Code;
 
-    public UserSimple(String mESSAGE, String srcIp, String desIp, String scrPt, String dstPt, String proto, String flag) {
+    public UserSimple(String mESSAGE, String srcIp, String desIp, String scrPt, String dstPt, String proto, String flag, String type, String code) {
         this.mESSAGE = mESSAGE;
         SrcIp = srcIp;
         DesIp = desIp;
@@ -54,7 +56,17 @@ public class UserSimple {
         DstPt = dstPt;
         Proto = proto;
         Flag = flag;
+        Type = type;
+        Code = code;
     }
+
+    public String getType() { return Type; }
+
+    public void setType(String type) { Type = type; }
+
+    public String getCode() { return Code; }
+
+    public void setCode(String code) { Code = code; }
 
     public String getSrcIp() {
         return SrcIp;

@@ -33,6 +33,15 @@ public class UserSimplePropertiesExtractor {
 
                 userSimple.setDstPt(    str.substring( str.indexOf("DPT="), str.indexOf(" ", str.indexOf("DPT=")) ).replace("DPT=","")   );
             }
+            else if(userSimple.getProto().equalsIgnoreCase("ICMP")) {
+
+                userSimple.setType(    str.substring( str.indexOf("TYPE="), str.indexOf(" ", str.indexOf("TYPE=")) ).replace("TYPE=","")   );
+
+                userSimple.setCode(    str.substring( str.indexOf("CODE="), str.indexOf(" ", str.indexOf("CODE=")) ).replace("CODE=","")   );
+
+            }
+
+
 
 
             //userSimple.setScrPt(    str.substring( str.indexOf("SPT="), str.indexOf(" ", str.indexOf("SPT=")) )   );

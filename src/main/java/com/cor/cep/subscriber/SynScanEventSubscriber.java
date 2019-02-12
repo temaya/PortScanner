@@ -1,6 +1,5 @@
 package com.cor.cep.subscriber;
 
-import com.cor.cep.event.TemperatureEvent;
 import com.cor.cep.event.UserSimple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

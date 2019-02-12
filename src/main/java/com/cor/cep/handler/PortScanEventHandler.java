@@ -35,6 +35,8 @@ public class PortScanEventHandler implements InitializingBean{
 
     private EPStatement AckScanEventStatement;
 
+    private EPStatement UdpScanEventStatement;
+
     /** customize Scan */
     @Autowired
     @Qualifier("synScanEventSubscriber")
@@ -44,6 +46,10 @@ public class PortScanEventHandler implements InitializingBean{
     @Autowired
     @Qualifier("ackScanEventSubscriber")
     private StatementSubscriber ackScanEventSubscriber;
+
+    @Autowired
+    @Qualifier("udpScanEventSubscriber")
+    private StatementSubscriber udpScanEventSubscriber;
 
 
     /**
@@ -61,6 +67,7 @@ public class PortScanEventHandler implements InitializingBean{
         //createTemperatureMonitorExpression();
         createSynScanDetectExpression();
         createAckScanDetectExpression();
+        createUdpScanDetectExpression();
 
     }
 
@@ -78,6 +85,13 @@ public class PortScanEventHandler implements InitializingBean{
         LOG.debug("create Ack Scan Monitor");
         AckScanEventStatement = epService.getEPAdministrator().createEPL(ackScanEventSubscriber.getStatement());
         AckScanEventStatement.setSubscriber(ackScanEventSubscriber);
+    }
+
+    private void createUdpScanDetectExpression() {
+
+        LOG.debug("create UDP Scan Monitor");
+        UdpScanEventStatement = epService.getEPAdministrator().createEPL(udpScanEventSubscriber.getStatement());
+        UdpScanEventStatement.setSubscriber(udpScanEventSubscriber);
     }
 
     /**
