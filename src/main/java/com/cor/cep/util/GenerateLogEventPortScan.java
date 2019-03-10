@@ -120,7 +120,7 @@ public class GenerateLogEventPortScan {
 
 
                 int count = 0;
-                while (count < noOfPortScanEvents && p.hasNext()) {
+                while (count < 3000 && p.hasNext()) {
 
                     JsonElement e = p.next();
                     if (e.isJsonObject()) {

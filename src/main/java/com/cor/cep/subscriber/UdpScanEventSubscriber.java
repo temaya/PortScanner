@@ -20,7 +20,8 @@ public class UdpScanEventSubscriber implements StatementSubscriber{
     public String getStatement() {
 
         //every at the top is messed up, put it in the first event so that it triggers at every SYN; if put as wrapper of the pattern it will ignore everything
-        String UdpScanEventExpression = "select EventA, EventB "
+        String UdpScanEventExpression =
+                "select EventA, EventB "
                 + "from pattern [ "
                 + "              every EventA = UserSimple(proto = 'UDP')                "
                 + "                 -> EventB = UserSimple(proto = 'ICMP'                "

@@ -10,7 +10,7 @@ public class UserSimplePropertiesExtractor {
 
 
         //String str = "[NetFilter-O]IN= OUT=eth0 SRC=10.64.119.57 DST=151.101.1.69 LEN=246 TOS=0x00 PREC=0x00 TTL=64 ID=48269 DF PROTO=TCP SPT=47612 DPT=443 WINDOW=317 RES=0x00 ACK PSH URGP=0 ";
-        if(str.contains("NetFilter")) {
+        if(str.contains("netFilter")) {
 
             int firstIndexOfSRC = str.indexOf("SRC=");
             int firstIndexOfSpace = str.indexOf(" ", firstIndexOfSRC);

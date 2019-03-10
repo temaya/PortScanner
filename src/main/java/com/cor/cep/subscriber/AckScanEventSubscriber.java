@@ -25,7 +25,9 @@ public class AckScanEventSubscriber implements StatementSubscriber{
         //return "select avg(temperature) as avg_val from TemperatureEvent.win:time_batch(5 sec)";
 
         //every at the top is messed up, put it in the first event so that it triggers at every SYN; if put as wrapper of the pattern it will ignore everything
-        String AckScanEventExpression = "select EventA, EventB "
+        String AckScanEventExpression = "" +
+                "insert into closed_portSyn (A, B, C, srcIP, destIP,string, destPt) " +
+                "select EventA, EventB, EventB, EventA.srcIp as srcIP, EventA.desIp as destIP, EventA.scrPt as srcPt, EventA.dstPt as destPt "
                 + "from pattern [ "
                 + "              every EventA = UserSimple(proto = 'TCP' and flag = ' ACK ')                "
                 + "                 -> EventB = UserSimple(proto = 'TCP' and flag = ' RST '              "

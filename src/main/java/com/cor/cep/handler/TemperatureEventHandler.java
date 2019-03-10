@@ -50,6 +50,7 @@ public class TemperatureEventHandler implements InitializingBean{
      */
     public void initService() {
 
+        /*
         LOG.debug("Initializing Service ..");
         Configuration config = new Configuration();
         config.addEventTypeAutoName("com.cor.cep.event");
@@ -58,6 +59,7 @@ public class TemperatureEventHandler implements InitializingBean{
         createCriticalTemperatureCheckExpression();
         createWarningTemperatureCheckExpression();
         createTemperatureMonitorExpression();
+        */
 
     }
 
@@ -68,7 +70,7 @@ public class TemperatureEventHandler implements InitializingBean{
      */
     private void createCriticalTemperatureCheckExpression() {
         
-        LOG.debug("create Critical Temperature Check Expression");
+        LOG.debug("create Critical Temperature Check Expression!!!");
         criticalEventStatement = epService.getEPAdministrator().createEPL(criticalEventSubscriber.getStatement());
         criticalEventStatement.setSubscriber(criticalEventSubscriber);
     }

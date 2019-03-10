@@ -37,11 +37,25 @@ public class PortScanEventHandler implements InitializingBean{
 
     private EPStatement UdpScanEventStatement;
 
+    private EPStatement SynScanEClosedPortventStatement;
+
+
+    private EPStatement monitorEventStatement;
+
+    private EPStatement horizontalEventStatement;
+
+    private EPStatement portSpikeHorizontalEventStatement;
+
+
+
     /** customize Scan */
     @Autowired
     @Qualifier("synScanEventSubscriber")
     private StatementSubscriber synScanEventSubscriber;
 
+    @Autowired
+    @Qualifier("synScanClosedPortEventSubscriber")
+    private StatementSubscriber SynScanClosedPortEventSubscriber;
 
     @Autowired
     @Qualifier("ackScanEventSubscriber")
@@ -50,6 +64,18 @@ public class PortScanEventHandler implements InitializingBean{
     @Autowired
     @Qualifier("udpScanEventSubscriber")
     private StatementSubscriber udpScanEventSubscriber;
+
+    @Autowired
+    @Qualifier("closedPortCounterSubscriber")
+    private StatementSubscriber monitorEventSubscriber;
+
+    @Autowired
+    @Qualifier("horizontalScanCounterSubscriber")
+    private StatementSubscriber horizontalScanEventSubscriber;
+
+    @Autowired
+    @Qualifier("portSpikeHorizontalSubscriber")
+    private StatementSubscriber portSpikeHorizontalSubscriber;
 
 
     /**
@@ -65,12 +91,48 @@ public class PortScanEventHandler implements InitializingBean{
         //createCriticalTemperatureCheckExpression();
         //createWarningTemperatureCheckExpression();
         //createTemperatureMonitorExpression();
+
         createSynScanDetectExpression();
         createAckScanDetectExpression();
         createUdpScanDetectExpression();
+        createSynScanClosedPortDetectExpression();
+        createCounterExpression();
+        createVerticalScanCounterExpression();
+        createHorizontalSpike();
+
+        //createTable();
+
 
     }
 
+    private void createHorizontalSpike() {
+
+        LOG.debug("create Horizontal Port Count Monitor");
+        portSpikeHorizontalEventStatement = epService.getEPAdministrator().createEPL(portSpikeHorizontalSubscriber.getStatement());
+        portSpikeHorizontalEventStatement.setSubscriber(portSpikeHorizontalSubscriber);
+    }
+
+    private void createVerticalScanCounterExpression() {
+
+        LOG.debug("create Horizontal Monitor");
+        horizontalEventStatement = epService.getEPAdministrator().createEPL(horizontalScanEventSubscriber.getStatement());
+        horizontalEventStatement.setSubscriber(horizontalScanEventSubscriber);
+    }
+
+    private void createCounterExpression() {
+
+        LOG.debug("create Timed Average Monitor");
+        monitorEventStatement = epService.getEPAdministrator().createEPL(monitorEventSubscriber.getStatement());
+        monitorEventStatement.setSubscriber(monitorEventSubscriber);
+    }
+
+
+    private void createSynScanClosedPortDetectExpression() {
+
+        LOG.debug("create Syn Scan ClosedPort Monitor");
+        SynScanEClosedPortventStatement = epService.getEPAdministrator().createEPL(SynScanClosedPortEventSubscriber.getStatement());
+        SynScanEClosedPortventStatement.setSubscriber(SynScanClosedPortEventSubscriber);
+    }
 
     private void createSynScanDetectExpression() {
 
@@ -87,12 +149,19 @@ public class PortScanEventHandler implements InitializingBean{
         AckScanEventStatement.setSubscriber(ackScanEventSubscriber);
     }
 
-    private void createUdpScanDetectExpression() {
+    private void createTable() {
 
+        LOG.debug("create Table");
+        String createSchemaClosedPort = "create table closed_port1 (srcIP string, destIP string, srcPt string, destPt string) ";
+        epService.getEPAdministrator().createEPL(createSchemaClosedPort);
+    }
+
+    private void createUdpScanDetectExpression() {
         LOG.debug("create UDP Scan Monitor");
         UdpScanEventStatement = epService.getEPAdministrator().createEPL(udpScanEventSubscriber.getStatement());
         UdpScanEventStatement.setSubscriber(udpScanEventSubscriber);
     }
+
 
     /**
      * Handle the incoming PortScanEvent.
@@ -100,6 +169,21 @@ public class PortScanEventHandler implements InitializingBean{
     public void handlePortScan(UserSimple event){
         //LOG.debug(event.toString());
         epService.getEPRuntime().sendEvent(event);
+
+        /*
+        if (event.getProto().equalsIgnoreCase( "ICMP")
+                && event.getType().equalsIgnoreCase( "8")
+                && event.getCode().equalsIgnoreCase( "0")
+                && UdpScanEventStatement.isStarted()){
+            createSynScanDetectExpression();
+            createAckScanDetectExpression();
+
+            //createUdpScanDetectExpression();
+
+
+        }
+        */
+
     }
 
     @Override
