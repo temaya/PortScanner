@@ -19,10 +19,8 @@ public class PortSpikeHorizontalSubscriber implements StatementSubscriber {
     public String getStatement() {
 
         // Example of simple EPL with a Time Window
-        return " select destPt, count(*) from VerticalScan.win:keepall " +
-                " group by destPt having count(*) >= 1 ";
-
-
+        return " select destPt, destIP from VerticalScan.win:length_batch(10) " +
+                " group by destPt having count(destPt) >= 2 ";
 
 
     }
@@ -34,10 +32,12 @@ public class PortSpikeHorizontalSubscriber implements StatementSubscriber {
 
         // count when there are distinct value
         String destPt = (String) eventMap.get("destPt");
+        String destIP = (String) eventMap.get("destIP");
 
         StringBuilder sb = new StringBuilder();
         sb.append("---------------------------------");
         sb.append("\n- [MONITOR] destPt " + destPt);
+        sb.append("\n- [MONITOR] destIP " + destIP);
         sb.append("\n---------------------------------");
 
         LOG.debug(sb.toString());
